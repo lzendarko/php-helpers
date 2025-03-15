@@ -1,6 +1,5 @@
 <?php
 
-use Response;
 
 /**
  * Helper class used for working with PHP cURL
@@ -14,9 +13,9 @@ class Helper
      * @param  array    $headers
      * @return Response
      */
-    public function get(string $url, array $headers = []): Response
+    public static function get(string $url, array $headers = []): Response
     {
-        return $this->request($url, 'GET', $headers);
+        return self::request($url, 'GET', $headers);
     }
 
     /**
@@ -27,9 +26,9 @@ class Helper
      * @param  mixed    $body
      * @return Response
      */
-    public function post(string $url, array $headers = [], mixed $body): Response
+    public static function post(string $url, array $headers = [], mixed $body): Response
     {
-        return $this->request($url, 'POST', $headers, $body);
+        return self::request($url, 'POST', $headers, $body);
     }
 
     /**
@@ -40,9 +39,9 @@ class Helper
      * @param  mixed    $body
      * @return Response
      */
-    public function put(string $url, array $headers = [], mixed $body): Response
+    public static function put(string $url, array $headers = [], mixed $body): Response
     {
-        return $this->request($url, 'PUT', $headers, $body);
+        return self::request($url, 'PUT', $headers, $body);
     }
 
     /**
@@ -53,9 +52,9 @@ class Helper
      * @param  mixed    $body
      * @return Response
      */
-    public function patch(string $url, array $headers = [],  mixed $body): Response
+    public static function patch(string $url, array $headers = [],  mixed $body): Response
     {
-        return $this->request($url, 'PATCH', $headers, $body);
+        return self::request($url, 'PATCH', $headers, $body);
     }
 
     /**
@@ -65,9 +64,9 @@ class Helper
      * @param  array    $headers
      * @return Response
      */
-    public function delete(string $url, array $headers = []): Response
+    public static function delete(string $url, array $headers = []): Response
     {
-        return $this->request($url, 'DELETE', $headers);
+        return self::request($url, 'DELETE', $headers);
     }
 
     /**
@@ -78,7 +77,7 @@ class Helper
      * @param array  $headers
      * @param mixed  $body
      */
-    private function request(
+    private static function request(
         string $url,
         string $method  = 'GET',
         array  $headers = [],
@@ -120,7 +119,7 @@ class Helper
         );
 
         $responseBody = curl_exec($curl);
-        $curlError    = curl_error($curl);
+        $curlError    = curl_error($curl) ?: null;
         $responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         curl_close($curl);
